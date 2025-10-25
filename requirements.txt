@@ -1,0 +1,12 @@
+langchain
+langchain-google-genai
+langchain-core
+langchain-community
+python-dotenv
+youtube-transcript-api
+langchain-text-splitters
+fastapi
+uvicorn
+pydantic
+langchain-qdrant
+qdrant-client
