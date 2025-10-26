@@ -9,9 +9,14 @@ from core.text_splitter import split_text
 
 app = FastAPI()
 
+allow_origins=[
+    "https://ikh-tiar.github.io",
+    "https://ikh-tiar.github.io/" # Add with a trailing slash
+],
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
