@@ -30,9 +30,15 @@ def load_video(video_link: VideoRequest):
     video_id = extract_video_id(link)
     transcript = fetch_youtube_transcript(link)
     chunks = split_text(transcript)
-
-    vectordb = get_vectordb(video_id)
-    vectordb.add_documents(chunks, batch_size=32)
+    
+    try:
+        vectordb = get_vectordb(video_id)
+        vectordb.add_documents(chunks, batch_size=32)
+    except Exception as e:
+        print("Error adding documents to vector database:", e)
+        return {"message": "Error processing video transcript.",
+                "video_id": video_id
+                }
 
     return {"message": "Video transcript loaded and processed successfully.",
             "video_id": video_id
