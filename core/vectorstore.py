@@ -20,7 +20,7 @@ def get_vectordb(video_id: str):
     qdrant_client = QdrantClient(
         url=QDRANT_URL,
         api_key=QDRANT_API_KEY,
-        timeout=60
+        timeout=180
     )
 
     collection_name = f"video_{video_id}"

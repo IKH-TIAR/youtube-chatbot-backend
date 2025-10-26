@@ -32,7 +32,7 @@ def load_video(video_link: VideoRequest):
     chunks = split_text(transcript)
 
     vectordb = get_vectordb(video_id)
-    vectordb.add_documents(chunks)
+    vectordb.add_documents(chunks, batch_size=32)
 
     return {"message": "Video transcript loaded and processed successfully.",
             "video_id": video_id
