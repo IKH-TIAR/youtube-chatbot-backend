@@ -18,6 +18,7 @@ def fetch_youtube_transcript(video_url: str) -> str:
     try:
         yt = YouTube(video_url)
         caption = yt.captions.get('en') or yt.captions.get('a.en')
+        print("Fetched YouTube transcript successfully.")
     except Exception as e:
         print("Error fetching YouTube transcript:", e)
         return "Transcript not available."
@@ -26,7 +27,7 @@ def fetch_youtube_transcript(video_url: str) -> str:
         srt_captions = caption.generate_srt_captions()
         text_only = re.sub(r'\d+\n\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d\n', '', srt_captions)
         text_only = re.sub(r'\n+', ' ', text_only).strip()
+        print(text_only)
         return text_only
-    
     else:
         return "Transcript not available."
