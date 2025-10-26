@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, parse_qs
-from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
+import re
+from pytubefix import YouTube
 
 def extract_video_id(url: str) -> str:
     """
@@ -14,13 +15,13 @@ def extract_video_id(url: str) -> str:
     return None
 
 def fetch_youtube_transcript(video_url: str) -> str:
-    ytt = YouTubeTranscriptApi()
-    video_id = extract_video_id(video_url)
-    if not video_id:
-        return "Invalid YouTube URL"
+    yt = YouTube(video_url)
+    caption = yt.captions.get('en') or yt.captions.get('a.en')
 
-    try:
-        transcript = ytt.fetch(video_id)
-        return " ".join([entry.text for entry in transcript])
-    except TranscriptsDisabled:
-        return "Transcripts are disabled for this video."
+    if caption:
+        srt_captions = caption.generate_srt_captions()
+        text_only = re.sub(r'\d+\n\d\d:\d\d:\d\d,\d\d\d --> \d\d:\d\d:\d\d,\d\d\d\n', '', srt_captions)
+        text_only = re.sub(r'\n+', ' ', text_only).strip()
+        return text_only
+    else:
+        return "Transcript not available."

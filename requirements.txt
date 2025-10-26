@@ -10,3 +10,4 @@ uvicorn
 pydantic
 langchain-qdrant
 qdrant-client
+pytubefix
